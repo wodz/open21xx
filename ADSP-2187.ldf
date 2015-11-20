@@ -1,0 +1,72 @@
+/*
+ * 2187.ldf
+ *
+ * Part of the Open21xx assembler toolkit
+ *
+ * Copyright (C) 2004 by Keith B. Clifford
+ *
+ * The Open21xx toolkit is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
+ * by the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The Open21xx toolkit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the Open21xx toolkit; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+ARCHITECTURE(ADSP-2187)
+
+MEMORY
+{
+	interrupts { TYPE(PM RAM) START(0) END(0x2f) WIDTH(24) }
+	int_pm { TYPE(PM RAM) START(0x30) END(0x3fff) WIDTH(24) }
+    int_pm4 { TYPE(PM RAM) START(0x42000) END(0x43fff) WIDTH(24) }
+    int_pm5 { TYPE(PM RAM) START(0x52000) END(0x53fff) WIDTH(24) }
+	int_dm { TYPE(DM RAM) START(0x0000) END(0x3fdf) WIDTH(16) }
+   	int_dm4 { TYPE(DM RAM) START(0x40000) END(0x41fff) WIDTH(16) }
+    int_dm5 { TYPE(DM RAM) START(0x50000) END(0x51fff) WIDTH(16) }
+}
+
+PROCESSOR p0
+{
+	OUTPUT( $COMMAND_LINE_OUTPUT_FILE )
+	SECTIONS
+	{
+		interrupts
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(interrupts))
+		} > interrupts
+		int_pm
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(program0))
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(pmdata0))
+		} > int_pm
+		int_pm4
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(program4))
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(pmdata4))
+		} > int_pm4
+		int_pm5
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(program5))
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(pmdata5))
+		} > int_pm5
+		int_dm
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(data0))
+		} > int_dm
+		int_dm4
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(data4))
+		} > int_dm4
+		int_dm5
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(data5))
+		} > int_dm5
+	}
+}

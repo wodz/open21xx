@@ -1,0 +1,217 @@
+.\" groff -man as21.1
+.TH "ez21" 1 "January 23, 2005"
+
+.SH NAME
+ez21 \- Download to and boot a 218x or 219x. Upload from a 218x.
+
+.SH SYNOPSIS
+.in +5
+.ti -5
+.B ez21
+.RB [ \-v ]
+.ti -5
+.B ez21
+.RB [ \-b
+.IR baud-rate ]
+.RB [ \-B ]
+.RB [ \-D ]
+.RB [ \-d 
+.IR device ]
+.R file
+.ti -5
+.B ez21
+.RB [ \-b
+.IR baud-rate ]
+.RB [ \-B ]
+.RB [ \-D ]
+.RB [ \-d 
+.IR device ]
+.RB [ \-f ]
+.RB [ \-u
+.IR "upload-list" "]"
+.RI [ file ]
+.ti -5
+.B ez21
+.RB [ \-A
+.IR ack-string ]
+.RB [ \-b
+.IR baud-rate ]
+.RB [ \-c
+.IR 1|2|4|8|16|32 ]
+.RB [ \-D ]
+.RB [ \-d 
+.IR device ]
+.RB [ \-F ]
+.RB [ \-O
+.IR SPI|SPORT ]
+.RB [ \-s
+.IR 0\-7 ]
+.RB [ \-W
+.IR 8|16 ]
+.RB [ \-w
+.IR 8|16 ]
+.R file
+.in -5
+
+.SH DESCRIPTION
+.B Ez21
+either downloads an ELF file to boot the 218x ez\-kit lite, downloads an
+ELF file to boot a 219x using it\'s UART boot mode, or uploads data from
+a 218x ez\-kit lite and saves it to a file or displays it.
+
+.SH OPTIONS
+.SS Common
+.TP
+.BI \-b " baud-rate"
+Set the baud rate for communications to one of 2400, 4800,
+9600, 19200, or 38400 baud.
+.br
+Default: 
+.I 9600
+baud.
+.TP
+.B \-D
+Turn on communications logging to see what is being sent and received.
+.TP
+.BI \-d " device"
+Specify the communications device to use.
+.br
+Default: 
+.IR /dev/ttyS0 .
+.TP
+.B \-v
+Print
+.BR ez21 "\'s version information."
+
+.SS 218x EZ-Kit Lite Specific
+.TP
+.B \-B
+Have the ezkit generate a tone. The tone will be generated before
+a transfer operation is performed if one is specified.
+.TP
+.B \-f
+On upload, force overwritting of the target file if it already exists.
+.TP
+.BI \-u " upload-list"
+Peform an upload, loading program and data from the locations specified
+in the upload list. The upload list is a comma separated string of
+memory locations of the form:
+.sp
+<memory type><memory range>
+.sp
+Where memory type is a lower or upper case \'p\' for program memory
+or a lower or upper case \'d\' for data memory and memory range is
+of the form:
+.sp
+.RS
+<start address>:<length>
+.sp
+or
+.sp
+<start address>-<end address>
+.sp
+An example of an upload list is:
+.sp
+p0x40:10,d0x1000-0x2000
+.sp
+Note that numeric values can be octal (0N), decimal (N), or hexadecimal
+(0xN) where N is a string of digits in the chosen base. Also, there can
+be no spaces in the upload list.
+.sp
+.SS 219x UART Boot Mode Specific
+.B Note:
+The first byte of the control word is not normally sent when
+booting via the UART (See ADI\'s EE-131 technical note) so the
+.BR \-c ", "
+.BR \-O ", and "
+.B \-s
+switches are not needed but are included for completeness.
+.TP
+.BI \-A " ack-string"
+Specify a string to expect back from the processor being booted as an
+acknowledgement that booting was successful. After UART booting is
+complete the 219x boot code leaves the UART configured and simply
+jumps to program address 0. The downloaded program can therefore
+use the UART to send a string back to 
+.B ez21
+as an acknowledgement that downloading was successful. 
+.B Ez21
+compares any received string to the string specified by 
+.I ack-string
+and prints "Download successful" if the string was received 
+or "Download failed" if it was not.
+.br
+Default:
+.IR none \.
+.TP
+.BI \-c " 1|2|4|8|16|32"
+Set the clock divider in the control word of the boot stream.
+.br
+Default:
+.IR 32 \.
+.TP
+.B \-F
+Also know as "Force first byte". Force sending the first byte of the
+control word. For certain combinations of processor clock speed and
+baud rate the first byte may be required. (See ADI\'s EE-131 technical
+note)
+.TP
+.BI \-O " SPI|SPORT"
+Set the operating mode in the boot stream control word to either SPORT2
+enabled (SPI disabled) or SPI enabled (SPORT2 disabled).
+.br
+Default:
+.IR SPORT \.
+.TP
+.BI \-s " 0-7"
+.br
+Set the number of wait states in the boot stream control word.
+.br
+Default:
+.IR 7 \.
+.TP
+.BI \-W " 8|16"
+.br
+Set the external/host port bus width (bits) in the boot stream control word.
+.br
+Default:
+.IR 8 " bits."
+.TP
+.BI \-w " 8|16"
+.br
+Set the external EEPROM width (bits) in the boot stream control word.
+.br
+Default:
+.IR 8 " bits."
+
+
+.SH DIAGNOSTICS
+.B Ez21
+generates a number of error messages which are self explanatory.
+
+.SH KNOWN BUGS
+None!
+
+.SH AUTHOR
+Written by Keith Clifford:
+.br
+email: <sharpshinwm@telus.net>
+.br
+web:   http://www3.telus.net/sharpshin
+
+.SH REPORTING BUGS
+Report bugs to <sharpshinwm@telus.net>.
+
+.SH COPYRIGHT
+Copyright\(co 2002 Free Software Foundation, Inc. This is
+free software; see the source for copying  conditions.
+There is NO warranty; not even for MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.
+
+.SH "SEE ALSO"
+.BR as21 "(1), " elfdump "(1), " ld21 "(1), " verify21 (1).
+
+Note: elfdump and verify21 are primarily useful for debugging
+the tools themselves so are not installed.
+
+

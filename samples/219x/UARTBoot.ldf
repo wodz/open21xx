@@ -1,0 +1,74 @@
+/*
+ * ADSP-2191.ldf 
+ * 
+ * Part of the Open21xx assembler toolkit
+ * 
+ * Copyright (C) 2002 by Keith B. Clifford 
+ * 
+ * The Open21xx toolkit is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
+ * by the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The Open21xx toolkit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the Open21xx toolkit; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+ARCHITECTURE(ADSP-2191)
+
+MEMORY
+{
+	interrupts { TYPE(PM RAM) START(0) END(0x1ff) WIDTH(24) }
+	int_pm { TYPE(PM RAM) START(0x200) END(0x7fff) WIDTH(24) }
+	int_dm { TYPE(DM RAM) START(0x8000) END(0xffff) WIDTH(16) }
+}
+
+PROCESSOR p0
+{
+	OUTPUT( $COMMAND_LINE_OUTPUT_FILE )
+	SECTIONS
+	{
+		interrupts
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(interrupts))
+		} > interrupts
+		int_pm
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(program0))
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(pmdata0))
+		} > int_pm
+		int_pm1
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(program1))
+		} > int_pm
+		int_pm2
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(program2))
+		} > int_pm
+		int_dmB
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(dataB))
+		} > int_dm
+		int_dmoo
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(dataoo))
+		} > int_dm
+		int_dmt
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(datat))
+		} > int_dm
+		int_dme
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(datae))
+		} > int_dm
+		int_dmd
+		{
+			INPUT_SECTIONS( $COMMAND_LINE_OBJECTS(datad))
+		} > int_dm
+	}
+}

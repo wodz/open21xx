@@ -1,0 +1,247 @@
+Version : 0.7.6
+    as21
+    - Fixed a case of improper use of char. The behaviour was different
+      depending on whether char was signed or unsigned.
+Version : 0.7.5
+    all
+    - Fixed a number of warnings that mysteriously showed up under newer
+      versions of gcc.
+    - Fixed the installation to comply with the FHS and install to
+      /usr/local/share and /usr/local/bin.
+    as21
+    - Fixed a structure alignment issue when compiled for AMD64.
+Version : 0.7.4
+    all
+    - Added support to resolve symbolic expressions in the linker. A
+      subset of this is that length(external_symbol) will now work. But
+      in general any arbitrary C expression involving a reasonably
+      large number of symbols and constants should work. A number of
+      new relocation types have been added for ALU constant, shift
+      immediate, bit operator, and IO instructions.
+    as21
+    - symbol tokens are limited to 255 characters so that yytext isn't
+      referenced by the grammars working around a known quirk of a lex
+      yacc implementation.
+Version : 0.7.3
+    all
+    - ELF section alignment defaults to 1 instead of 0 since Fedora
+      elfutils-0.95 has a problem with 0 and both are correct.
+    - libelf.h included from /usr/include/ instead of from
+      /usr/include/libelf
+    - When assembling, if a section is empty force it to SHT_NOBITS because
+      libelf doesn't like empty sections that aren't SHT_NOBITS.
+    ez21
+    - Added support to boot a 219x via the UART.
+Version : 0.7.2
+    all
+    - changed section names program1, data2, and data1 to program0, pmdata0,
+      and data0 respectively.
+    as218x/as219x
+    - support the PAGE() and ADDRESS() operator. Added relocation types
+      for PAGE() operator.
+    - #warning, #error, and #include <...> don't expand macros appearing
+      in the message/filename.
+    - If unable to open an include file print the name in the error message.
+    ld21
+    - Added new .ldfs for 2195, 2196, 21990, 21991, 21992.
+    - Support the PAGE relocation.
+    - Added ldf files for 2187, 2188, 2189. Updated memory ranges in
+      all ldf's to exclude memory mapped registers. Changed the memory
+      ranges in each ldf to match the corresponding device.
+    - don't output an empty section.
+    - Don't set a libelf d_buf to NULL except if the section type is
+      SHT_NOBITS.
+    - \r\n is treated the same as \n in an ldf. DOS files can be read
+      on UNIX without modification.
+Version : 0.7.1
+    all
+    - Version 0.7.0 has 0.6.4 version strings.
+    - Only define O_BINARY if its not defined and O_RDONLY is.
+    ld21
+    - Include O_BINARY in open call in execfile.c.
+Version : 0.7.0
+    all
+    - Include O_BINARY in open calls for compatibility with Windows.
+    ez21
+    - If download fails return non-zero value.
+    ld21
+    - Verifying that an address is in the correct space (data/program)
+      is done in the linker instead of the assembler since the assembler
+      may not know.
+    - Added relocation types. Initialization of data with an address
+      will be relocated.
+    - Its not an error to have a symbol declared extern that isn't
+      defined if its not referenced.
+    libas21
+    - Trying to fit a zero length section into memory no longer
+      underflows.
+    as218x/as219x
+    - ALU constants have a range from -0x8000 to 0xffff instead of from
+      -0x8000 to 0x7fff.
+    - Set the fail flag for an assembly after the assembly is terminated
+      since undefined symbols are found then.
+    - Verifying that an address is in the correct space (data/program)
+      is done in the linker instead of the assembler since the assembler
+      may not know.
+    - Added new relocation types. Initialization of data with an address
+      will be relocated now.
+    - If a quoted string contains only one character, it is a character
+      constant and so can appear in expressions.
+    - The length of a single quoted string was the number of characters
+      in the string including things like the '\' in an escape
+      sequence. Its now the number of data words parsed out of the string.
+Version : 0.6.4
+    as218x/as219x preprocessor
+    - Parsing numbers was moved from the lexer to the grammar in 0.6.3
+      and the preprocessor grammar wasn't setting the parsed value.
+Version : 0.6.3
+    all
+    - improved error reporting of problems encountered by libelf.
+    - Added "DEBUG=1" to the make command line will compile in
+      debugging and add lex and yacc debugging. Adding "NDEBUG=1"
+      to the command line will compile out asserts.
+    libas21
+    - in bbtree_remove, the node that was being moved to replace
+      the node being deleted wasn't being initialized properly.
+      Very bad things were happened with #undef.
+    as218x/as219x
+    - moved conversion of character strings to numbers from
+      the lexer to the grammars because there are circumstances
+      when the preprocessor doesn't want a number converted.
+    ld21
+    - Some versions of flex, 2.5.31 for example, don't define
+      the INITIAL start state early enough in the generated C
+      file. Only use "INITIAL" in the rules section. Use 0
+      elsewhere.
+Version : 0.6.2
+    as218x/as219x
+    - explicitly build with bison. Bison provides the easiest way
+      of including multiple grammars in the same executable and
+      making sure the token definitions for the grammars are in
+      sync.
+Version : 0.6.1
+    as218x/as219x
+    - explicitly build with flex.
+    - corrected numerous compiler warnings that are generated
+      when building with bison.
+    - changed the way the pre-processor and assembler grammers
+      interface so that both bison and BSD yacc can be used to
+      build the assemblers. Hopefully its general enough for
+      any flavour of yacc.
+    ld21
+    - explicitly build with flex.
+Version : 0.6.0
+    as218x/as219x
+    - added a maximum error command line option, -E.
+    - carriage returns are stripped from input files so DOS/Windows
+      files can be parsed without conversion to Unix. Legacy syntax
+      must still be converted. The column number is displayed in
+      warning and error messages instead of "near <token>".
+    - error messages are formatted the same way gcc error messages
+      are. Editors, like emacs which understand the error message
+      format, will be able to step through a list of error messages.
+    as21/as218x
+    - added a processor selection command line option. The default
+      is that all instructions are allowed but all 21xx processors
+      are supported.
+    - Changed the name to as218x because there is going to be an
+      as219x.
+    - Separated startup code from the grammar.
+    - Separated preprocessor code from the lexer.
+    - mr/mf = 0 and mr/mf = mr (rnd) where not permitted in
+      multifunction instructions.
+    as219x
+    - added a processor selection command line option. The default
+      is that all instructions are allowed.
+    - Created.
+    ld21
+    - Changed error message format to be compatible with gcc.
+Version : 0.5.3
+    as21
+    - Applied David Horwitt's LIST/NOLIST patch.
+    - Removed the restriction of ordering of clauses in multifunction
+      operations.
+    - Added LIST_DATFILE/NOLIST_DATFILE, LIST_DEFTAB, and LIST_LOCTAB
+      directives.
+    libas21
+    - Forced elf sections and section header table to be align on an
+      Elf32_Off boundry. Hopefully this fixes the problem some people
+      have been having with the assembler generating "non-ELF" files.
+    verify21
+    - Added test cases for the various ordering of clauses for multi-
+      function operations.
+
+Version : 0.5.2
+    all
+    - Changed EM_ADSP21XX to EM_ADSP218X and changed its value to a
+      large random number like GNU elf.h asks me to do.
+    - Moved the ELF relocation types to adielf.h and changed their
+      names to R_ADSP218X... because that seems to be that naming
+      convention. At least according to GNU.
+    as21
+        - An expression is accepted as an array size.
+    ld21
+    - The address field of instructions that have them weren't being
+      cleared before putting the relocated address back into them.
+      This means that if you used an instruction like:
+        dm(symbol+1)=ar;
+      the wrong address might be generated.
+    - Generate an error message instead of asserting if a file is
+      included for linking that isn't a valid ELF file.
+Version : 0.5.1
+    all
+    - Added support for SHT_NOBITS sections. Stair.dsp and reverb.dsp
+      download much faster now.
+    as21
+    - Added predefined macros for __FILE__, __LINE__, __DATE__, and
+      __TIME__.
+    - Changed references to section types to references to memory spaces
+      to eliminate confusion with ELF section types.
+    - Explicitly set the ELF machine type.
+    - Added a makefile variable so that as21 can be built with or without
+      LEX and YACC debugging. The default is without. To build with LEX
+      and YACC debugging:
+          make clean; make DEBUG=1
+    ez21
+    - Added a progress indicator.
+    ld21
+    - Replaced SCN_PAGE with a more generic array.c which I can use
+      elsewhere.
+    - Replaced the linked list of object files to link in an input section
+      with an array_t. Multilple INPUT_SECTIONs can now appear in a single
+      output section and duplicate object files in a list of files will
+      generate an error instead of hanging the linker.
+    - Symbols are sorted by data/program then address then symbol name and
+      then file name in the map file. Added separate command line options to
+      include local symbols and cross references in the map file.
+    - Changed references to section types to references to memory spaces
+      to eliminate confusion with ELF section types.
+    - The list of files being searched for each INPUT_SECTION in an output
+      section was being added to for each INPUT_SECTION instead of starting
+      fresh.
+    - Specifying MAP in the LDF file will work much better now. It didn't
+      work before.
+    - The ELF file machine type is set based on the architecture and the
+      machine type of the input files is checked against the specified
+      machine type.
+    - Added a makefile variable so that ld21 can be built with or without
+      LEX and YACC debugging. The default is without. To build with LEX
+      and YACC debugging:
+          make clean; make DEBUG=1
+    libas21
+    - In bbtree_preinsert, default compare return value to non-zero. Fixes
+      the possible indication of a false duplicate when trying to insert.
+    - Changed references to section types to references to memory spaces
+      to eliminate confusion with ELF section types.
+    - Manually layout the ELF file to have better control of alignment.
+    - Removed outfile_init_obj and outfile_init_exec and make outfile_init
+      global with a suitable set of parameters including the ELF machine
+      type.
+
+Version 0.5.0:
+    - Initial release.
+
+
+
+
+

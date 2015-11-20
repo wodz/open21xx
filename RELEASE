@@ -1,0 +1,20 @@
+The following is the release procedure for open21xx.
+
+In a clean directory:
+
+- checkout open21xx
+- append the version number to the directory name
+- tar the directory
+- in a test directory untar the tar ball and run make
+
+- Verify the as218x version string.
+- Verify the as219x version string.
+- Verify the ld21 version string.
+- Verify the ez21 version string.
+
+- do a test run of dlymain, pass, stair, and reverb on 218x.
+- do a run of UARTBoot on 219x.
+
+- cvs rtag open21xx-N-N-N open21xx
+
+- Copy open21xx-N.N.N.tar.gz and ChangeLog to website.

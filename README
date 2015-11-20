@@ -1,0 +1,15 @@
+There are five programs in this package. Three programs: as21,
+ld21, and ez21 are an assembler, linker, and downloader respectively
+for the ADSP-218x family of DSPs. The other two: elfdump and
+verify21 are utilities used for developement of the other three
+programs.
+
+Legacy programs can be converted to the syntax used by as21.
+For notes on converting source files see the as21 man page included.
+
+An additional directory, samples contains a few simple demo programs.
+These programs are specifically not GPLed. Stair.dsp and reverb.dsp are
+used with permission but the folks giving me permission asked not to be
+named since they don't want my mistakes haunting them. Pass.dsp,
+ad1847.dsp, dlymain.dsp, and delay.dsp are original creations. You are
+free to use and abuse these programs as you see fit.

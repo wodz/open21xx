@@ -1,0 +1,23 @@
+Open21xx should be relatively painless to build and install. You
+need the following things installed before building open21xx:
+
+libelf  - available from www.stud.uni-hannover.de/~michael/software/
+gcc 	- actually any C compiler should do.
+make	- I used GNU make during developement.
+bison	- bison has the best support for multiple grammars used in
+          the same executable.
+FLEX	- And only FLEX. The assembler relies heavily on FLEX features.
+
+Once the above things have been installed, untar open21xx, then do the
+following:
+
+	$ cd open21xx
+	$ make
+	$ make install
+
+Thats it.
+
+Open21xx was developed and tested on Linux so if you're running Linux you
+shouldn't have any problems. It has not been tested on any other systems
+yet. In any case, if you have problems, let me know. If you have patches,
+please forward them to me and I will include them in the next release.
