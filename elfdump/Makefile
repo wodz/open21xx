@@ -21,14 +21,14 @@
 #
 YFLAGS=-d -v
 
-CFLAGS= -I.. -g
+CFLAGS=-m32 -O2 -I.. -g
 
 TARGET=elfdump
 
 .PHONY: clean
 
 $(TARGET): $(TARGET).o
-	$(CC) -o $(TARGET) $^ -lelf
+	$(CC) $(CFLAGS) -o $(TARGET) $^ -lelf
 
 $(TARGET).c :
 

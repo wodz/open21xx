@@ -19,7 +19,7 @@
 #  along with the Open21xx toolkit; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-CFLAGS=-Wall -I..
+CFLAGS=-m32 -O2 -Wall -I..
 
 # "make DEBUG=1" to turn on compiler debugging
 ifdef DEBUG

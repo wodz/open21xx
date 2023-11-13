@@ -19,7 +19,7 @@
 #  along with the Open21xx toolkit; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-CFLAGS=-Wall -I ../libas21
+CFLAGS=-m32 -O2 -Wall -I ../libas21
 YFLAGS=-d
 
 # "make DEBUG=1" to turn debugging on in the compiler
@@ -44,7 +44,7 @@ GRAMMARS=ld21-grammar.y
 ld21: ld21-grammar.o ld21-lex.o dspmem.o namelist.o macro.o \
 		 execfile.o array.o fixup.o \
 		../libas21/libas21.a
-	$(CC) -o $@ $^ -L ../libas21 -las21 -lelf
+	$(CC) $(CFLAGS) -o $@ $^ -L ../libas21 -las21 -lelf
 
 ld21-grammar.c ld21-grammar.h: ld21-grammar.y ld21-lex.h dspmem.h \
 		namelist.h macro.h execfile.h \

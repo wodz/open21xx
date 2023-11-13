@@ -19,7 +19,7 @@
 #  along with the Open21xx toolkit; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-CFLAGS= -g -I ..
+CFLAGS=-m32 -O2 -g -I ..
 
 # "make NDEBUG=1" to compile out asserts
 ifdef NDEBUG
@@ -31,7 +31,7 @@ TARGET=ez21
 .PHONY: clean
 
 $(TARGET): $(TARGET).o
-	$(CC) -o $@ $^ -lelf
+	$(CC) $(CFLAGS) -o $@ $^ -lelf
 
 ez21.o: ez21.c ../defs.h ../adielf.h
 
