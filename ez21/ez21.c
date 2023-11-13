@@ -145,12 +145,12 @@ static Elf32_Half download_machine( const char *filename )
     return machine;
 }
 
-inline unsigned long data_word( unsigned char *data )
+unsigned long data_word( unsigned char *data )
 {
     return ((unsigned long)*data << 8) | ((unsigned long)*(data+1));
 }
 
-inline unsigned long program_word( unsigned char *data )
+unsigned long program_word( unsigned char *data )
 {
     return ((unsigned long)*data << 16) |
         ((unsigned long)*(data+1) << 8) |
