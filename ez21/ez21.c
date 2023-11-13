@@ -223,7 +223,7 @@ int received( int expected )
     return i;
 }
 
-int write_drain( int fd, const unsigned char *data, unsigned long length )
+void write_drain( int fd, const unsigned char *data, unsigned long length )
 {
     int i, result, block;
 
