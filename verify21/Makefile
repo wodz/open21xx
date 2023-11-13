@@ -22,7 +22,7 @@
 YFLAGS+=-d -v
 LFLAGS+= -d -L
 
-CFLAGS= -g -DYYDEBUG
+CFLAGS=-m32 -O2 -g -DYYDEBUG
 
 TARGET=verify21
 
@@ -41,7 +41,7 @@ check9x: $(TARGET)
 	../as21/as219x -o preproc.o -dv -I incdir2 -I incdir -I include preproc.dsp | ./verify21
 
 $(TARGET): $(TARGET)-grammar.o $(TARGET)-lex.o
-	$(CC) -o $(TARGET) $^
+	$(CC) $(CFLAGS) -o $(TARGET) $^
 
 $(TARGET)-lex.o: $(TARGET)-lex.c verify21-grammar.h
 

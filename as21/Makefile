@@ -19,7 +19,7 @@
 #  along with the Open21xx toolkit; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-CFLAGS=-Wall -I../libas21 -I..
+CFLAGS=-m32 -O2 -Wall -I../libas21 -I..
 YFLAGS=-d
 
 # "make DEBUG=1" to turn debugging on in the compiler
@@ -60,16 +60,16 @@ OBJS_9X=$(CFILES_9X:.c=.o) $(GRAMMARS_9X:.y=.o) $(LEXERS:.l=.o)
 all: as218x as219x
 
 as218x: $(OBJS_8X) ../libas21/libas21.a
-	$(CC) -o $@ $^ -L ../libas21 -las21 -lelf
+	$(CC) $(CFLAGS) -o $@ $^ -L ../libas21 -las21 -lelf
 
 as219x: $(OBJS_9X) ../libas21/libas21.a
-	$(CC) -o $@ $^ -L ../libas21 -las21 -lelf
+	$(CC) $(CFLAGS) -o $@ $^ -L ../libas21 -las21 -lelf
 
 keytest8x: keytest.o keyword.o keytable8x.o
-	$(CC) -o $@ $(CFLAGS) $^
+	$(CC) $(CFLAGS) -o $@ $^
 
 keytest9x: keytest.o keyword.o keytable9x.o
-	$(CC) -o $@ $(CFLAGS) $^
+	$(CC) $(CFLAGS) -o $@ $^
 
 as21.o: as21.c as21-lex.h listing.h symbol.h grammar.h \
 	../defs.h ../adielf.h

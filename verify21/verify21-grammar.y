@@ -35,6 +35,9 @@ static int verify_length, verify_index;
 static int recovering;
 static char error_buf[128];
 
+int yylex();
+int yyerror(const char *);
+
 %}
 
 %union {
